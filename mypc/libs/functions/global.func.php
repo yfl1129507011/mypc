@@ -84,6 +84,27 @@ function sys_auth($string, $operation = 'ENCODE', $key = '', $expiry = 0) {
 
 
 /**
+* 模板调用
+*
+* @param $module 模板所属模块名称
+* @param $template 调用模板名称
+*/
+function template($module='content', $tpl='index'){
+	$module = str_replace('/', DIRECTORY_SEPARATOR, $module);
+	//获取编译后的缓存模板文件
+	$compiled_tpl_file = MYPC_PATH . 'caches' . DIRECTORY_SEPARATOR . 'caches_template' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $tpl . '.php';
+	//获取模板文件
+	$tpl_file = MP_PATH . 'tpls' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $tpl . '.html';
+	if (file_exists($tpl_file)) {  //是否模板文件存在
+		if(!file_exists($compiled_tpl_file) || (@filemtime($tpl_file) > @filemtime($compiled_tpl_file))){
+			//编译缓存文件不存在或者模板文件已修改，则重新进行模板编译
+			tpl_compile($module, $tpl);
+		}
+	}
+}
+
+
+/**
 * 输出自定义错误，并将错误信息写入CACHE_PATH.'error_log.php'的错误日志文件中
 *
 * @param $errno 错误号
@@ -106,3 +127,10 @@ function my_error_handler($errno, $errstr, $errfile, $errline, $string){
 		echo $str;
 	}
 }
+
+
+/**
+* 读取缓存，默认为文件缓存，不加载缓存配置
+* @param string $name 缓存名称
+* @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+*/
