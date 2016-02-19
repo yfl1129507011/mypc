@@ -12,6 +12,6 @@ class index{
 
 	public function init(){
 		//echo "yfl";
-		var_dump(setcache('cache','d'));
+		var_dump(setcache('test',array('a'=>'yang', 'b'=>'fei', 'c'=>'long')));
 	}
 }

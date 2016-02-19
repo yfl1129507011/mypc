@@ -92,15 +92,20 @@ function sys_auth($string, $operation = 'ENCODE', $key = '', $expiry = 0) {
 function template($module='content', $tpl='index'){
 	$module = str_replace('/', DIRECTORY_SEPARATOR, $module);
 	//获取编译后的缓存模板文件
-	$compiled_tpl_file = MYPC_PATH . 'caches' . DIRECTORY_SEPARATOR . 'caches_template' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $tpl . '.php';
+	$compiled_tpl_file = MYPC_PATH . 'caches' . DIRECTORY_SEPARATOR . 'caches_tpl' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $tpl . '.php';
 	//获取模板文件
 	$tpl_file = MP_PATH . 'tpls' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $tpl . '.html';
 	if (file_exists($tpl_file)) {  //是否模板文件存在
 		if(!file_exists($compiled_tpl_file) || (@filemtime($tpl_file) > @filemtime($compiled_tpl_file))){
 			//编译缓存文件不存在或者模板文件已修改，则重新进行模板编译
-			tpl_compile($module, $tpl);
+			$tpl_cache = mp_base::load_sys_class('tpl_cache');
+			$tpl_cache->tpl_compile($module, $tpl);
 		}
+	}else {
+		die('模板不存在！');
 	}
+
+	return $compiled_tpl_file;
 }
 
 

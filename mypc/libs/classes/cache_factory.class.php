@@ -57,7 +57,6 @@ final class cache_factory{
   * @return object
   */
   public function load($cache_name){
-    return $cache_name;
     $object = null;
     if (isset($this->cache_config[$cache_name]['type'])) {
       switch ($this->cache_config[$cache_name]['type']) {

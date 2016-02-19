@@ -5,10 +5,10 @@
 
 class cache_file{
   //缓存默认配置
-  protected $_setting = array(){
+  protected $_setting = array(
     'suf' => '.cache.php', //缓存文件后缀
     'type' => 'array',  //数据缓存格式：array-数组，serialize-序列化
-  }
+  );
 
   //缓存路径
   protected $filepath = '';
@@ -44,7 +44,7 @@ class cache_file{
     if ($this->_setting['type'] == 'array') {
       $data = "<?php\nreturn " . var_export($data, true) . ";\n?>";
     }elseif ($this->_setting['type'] == 'serialize') {
-      $data serialize($data);
+      $data = serialize($data);
     }
 
     if ($module == 'commons') {
