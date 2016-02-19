@@ -130,7 +130,76 @@ function my_error_handler($errno, $errstr, $errfile, $errline, $string){
 
 
 /**
+* 写入缓存，默认为文件缓存，不加载缓存配置
+* @param $name 缓存名称 必要
+* @param $data 缓存数据 必要
+* @param $filepath 数据路径（模块名称） caches/cache_$filepath
+* @param $type 缓存类型[file, memcache, redis]
+* @param $config 配置名称
+* @param $timeout 过期时间
+*/
+function setcache($name, $data, $filepath='', $type='file', $config='', $timeout=0){
+	if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) { //过滤非法缓存名称
+		return false;
+	}
+	if($filepath != "" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)){  //数据路径不为空，进行过滤
+		return false;
+	}
+	//加载缓存工厂类文件
+	mp_base::load_sys_class('cache_factory', '', 0);
+	if ($config) {
+		$cacheconfig = mp_base::load_config('cache');
+		$cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+	}else{
+		$cache = cache_factory::get_instance()->get_cache($type);
+	}
+
+	return $cache->set($name, $data, $timeout, '', $filepath);
+}
+
+
+/**
 * 读取缓存，默认为文件缓存，不加载缓存配置
 * @param string $name 缓存名称
 * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+* @param $type 缓存类型[file, memcache, redis]
+* @param string $config 配置名称
 */
+function getcache($name, $filepath='', $type='file', $config=''){
+	if (!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) {
+		return false;
+	}
+	if ($filepath != '' && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) {
+		return false;
+	}
+	mp_base::load_sys_class('cache_factory', '', 0);
+	if ($config) {
+		$cacheconfig = mp_base::load_config('cache');
+		$cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+	}else {
+		$cache = cache_factory::get_instance()->get_cache($type);
+	}
+
+	return $cache->get($name, '', '', $filepath);
+}
+
+
+/**
+ * 删除缓存，默认为文件缓存，不加载缓存配置。
+ * @param $name 缓存名称
+ * @param $filepath 数据路径（模块名称） caches/cache_$filepath/
+ * @param $type 缓存类型[file,memcache,apc]
+ * @param $config 配置名称
+ */
+function delcache($name, $filepath='', $type='file', $config='') {
+	if(!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) return false;
+	if($filepath!="" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) return false;
+	pc_base::load_sys_class('cache_factory','',0);
+	if($config) {
+		$cacheconfig = pc_base::load_config('cache');
+		$cache = cache_factory::get_instance($cacheconfig)->get_cache($config);
+	} else {
+		$cache = cache_factory::get_instance()->get_cache($type);
+	}
+	return $cache->delete($name, '', '', $filepath);
+}

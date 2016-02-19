@@ -11,6 +11,7 @@ class index{
 
 
 	public function init(){
-		echo "yfl";
+		//echo "yfl";
+		var_dump(setcache('cache','d'));
 	}
 }
