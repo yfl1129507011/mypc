@@ -63,12 +63,12 @@ final class db_factory{
     $object = null;
     switch ($this->db_config[$db_name]['type']) {
       case 'mysql':
-        pc_base::load_sys_class('mysql', '', 0);
+        mp_base::load_sys_class('mysql', '', 0);
         $object = new mysql;
         break;
 
       default:
-        pc_base::load_sys_class('mysql', '', 0);
+        mp_base::load_sys_class('mysql', '', 0);
         $object = new mysql;
     }
 

@@ -3,7 +3,8 @@
 * model.class.php  数据模型基类
 */
 defined('IN_MYPC') or exit('Access Denied');
-pc_base::load_sys_class('db_factory', '', 0);
+
+mp_base::load_sys_class('db_factory', '', 0);
 
 class model{
   //数据库配置
@@ -46,7 +47,7 @@ class model{
 	 * @param $key          返回数组按键名排序
 	 * @return array		查询结果集数组
 	 */
-   final public function select($where='', $data='*', $limit='',, $order = '', $group = '', $key=''){
+   final public function select($where='', $data='*', $limit='', $order = '', $group = '', $key=''){
      if (is_array($where)) $where = $this->sqls($where);
 		 return $this->db->select($data, $this->table_name, $where, $limit, $order, $group, $key);
    }
@@ -123,7 +124,7 @@ class model{
 		if (is_array($where)) $where = $this->sqls($where);
 		return $this->db->delete($this->table_name, $where);
 	}
-  
+
 
 	/**
 	 * 计算记录数

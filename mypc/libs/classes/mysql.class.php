@@ -44,7 +44,7 @@ final class mysql{
     if ($this->version() > '4.1') {
       $charset = isset($this->config['charset']) ? $this->config['charset'] : '';
       $serverset = $charset ? "character_set_connection='$charset', character_set_results='$charset', character_set_client=binary" : '';
-      $serverset .= $this->version() > '5.0.1' ((empty($serverset) ? '' : ',')." sql_mode='' ") : '';
+      $serverset .= $this->version() > '5.0.1' ? ((empty($serverset) ? '' : ',') . " sql_mode='' ") : '';
       $serverset && mysql_query("SET $serverset", $this->link);
     }
 
@@ -281,7 +281,7 @@ final class mysql{
 
 
   //关闭资源
-  private function close(){
+  public function close(){
     if (is_resource($this->link)) {
       @mysql_close($this->link);
     }
@@ -291,7 +291,7 @@ final class mysql{
   //mysql错误信息的显示
   private function half($message='', $sql=''){
     if ($this->config['debug']) {
-      $msg = "<b>MySQL Query : </b> $sql <br /><b> MySQL Error : </b>".$this->error()." <br /> <b>MySQL Errno : </b>".$this->errno()." <br /><b> Message : </b> $message <br />
+      $msg = "<b>MySQL Query : </b> $sql <br /><b> MySQL Error : </b>".$this->error()." <br /> <b>MySQL Errno : </b>".$this->errno()." <br /><b> Message : </b> $message <br />";
       echo '<div style="font-size:12px;text-align:left; border:1px solid #9cc9e0; padding:1px 4px;color:#000000;font-family:Arial, Helvetica,sans-serif;"><span>'.$msg.'</span></div>';
       exit;
     }else {
