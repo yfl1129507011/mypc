@@ -7,7 +7,8 @@ return array (
 		'pconnect' => 0,
 		'autoconnect' => 0
 		),
-  //内存缓存配置参数
+		
+  //内存缓存memcache配置参数
 	'mem1' => array (
 		'hostname' => '210.78.140.2',
 		'port' => 11211,
