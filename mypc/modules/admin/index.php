@@ -13,8 +13,11 @@ class index{
 
 
   public function init(){
+    $admin_model = mp_base::load_model('admin_model');
+    $list = $admin_model->select('userid=1', 'userid, username, email');
     echo "<pre>";
-    var_dump(mp_base::load_model('admin_model'));
+    var_dump($admin_model);
+    var_dump($list);
   }
 }
 

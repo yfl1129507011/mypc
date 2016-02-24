@@ -8,7 +8,7 @@ return array(
     'password' => '',  //密码
     'tablepre' => 'mp_',  //表后缀
     'charset' => 'utf8',  //字符编码
-    'type' => 'mysql',  //数据库服务器类型
+    'type' => 'mysqli',  //数据库服务器类型
     'debug' => true,  //数据库操作错误时，是否显示错误信息
     'pconnect' => 0,
     'autoconnect' => 0
