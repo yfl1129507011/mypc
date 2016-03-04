@@ -9,4 +9,8 @@ return array(
 	'cookie_path' => '', //Cookie 作用路径
 	'cookie_pre' => 'eqELX_', //Cookie 前缀，同一域名下安装多套系统时，请修改Cookie前缀
 	'cookie_ttl' => 0, //Cookie 生命周期，0 表示随浏览器进程
+	//Session配置
+	'session_storage' => 'mysql',  //Session的存储方式，默认存在mysql数据库
+	'session_ttl' => 1800,  //Session的有效期
+	'session_savepath' => CACHE_PATH . 'sessions/',  //用文件来存储session信息时，文件位置
 );
