@@ -34,6 +34,47 @@ function new_addslashes($string){
 }
 
 
+/**
+* 返回一个去除转义反斜线后的字符串
+* @param $string 需要处理的字符串或数组
+* @return mixed
+*/
+function new_stripslashes($string){
+	if (!is_array($string)) {
+		return stripslashes($string);
+	}
+	foreach($string as $key=>$val) $string[$key] = new_stripslashes($val);
+
+	return $string;
+}
+
+
+/**
+* 将特殊的字符转为HTML实体
+* @param $string 需要处理的字符串或数组
+* @return mixed
+*/
+function new_html_special_chars($string){
+	$encoding = 'utf-8';
+	if(strtolower(CHARSET)=='gbk') $encoding = 'ISO-8859-15';
+	if(!is_array($string)) return htmlspecialchars($string, ENT_QUOTES, $encoding);
+	foreach($string as $key=>$val) $string[$key] = new_html_special_chars($val);
+
+	return $string;
+}
+
+
+/**
+* 将HTML实体转为对应特殊的字符
+* @param $string 需要处理的字符串或数组
+* @return mixed
+*/
+function new_html_entity_decode($string){
+	$encoding = 'utf-8';
+	if(strtolower(CHARSET) == 'gbk') $encoding = 'ISO-8859-15';
+	return new_html_entity_decode($string, ENT_QUOTES, $encoding);
+}
+
 
 /**
 * 字符串加密、解密函数
